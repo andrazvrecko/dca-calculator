@@ -1,5 +1,7 @@
 .App {
-  text-align: center;
+  background-color: #f7f8fa;
+  min-height: 100vh;
+  color: black;
 }
 
 .App-logo {
@@ -24,9 +26,22 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.resultModal{
+  color: #ff007a;
 }
+.App-UI{
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  min-height: 100vh;
+}
+
+.Div-Center{
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
 
 @keyframes App-logo-spin {
   from {
