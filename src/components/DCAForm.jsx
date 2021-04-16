@@ -1,13 +1,33 @@
 import React, {useState} from 'react';
-import {Form, Button, Card, Col, Row, Modal} from 'react-bootstrap';
-import DatePicker from 'react-date-picker';
+import {Form, Button, Card, Col, Row, Modal, Dropdown} from 'react-bootstrap';
+import DatePicker from 'react-date-picker/dist/entry.nostyle';
+import CurrencyDropdown from './CurrencyDropdown';
+import IntervalDropdown from './IntervalDropdown';
+import './DatePicker.scss';
+import './Calendar.scss';
 
 function DCAForm() {
     const [amount, setAmount] = useState(100);
     const [currency, setCurrency] = useState("Bitcoin");
-    const [interval, SetInverval] = useState(31)
+    const [dcaInterval, setDcaInverval] = useState(31)
     const [date, setDate] = useState(new Date(2021, 1, 1));
     const [show, setShow] = useState(false);
+    const [inputFocus, setInputFocus] = useState(false);
+    const [currencyChart, setCurrencyChart] = useState(-1);
+    const [minDate, setMinDate] = useState(1367107200000);
+
+    function getData(curr){
+        console.log("Updating price chart...");
+        const link = 'https://api.coingecko.com/api/v3/coins/'+curr.toLowerCase()+'/market_chart?vs_currency=USD&days=max';
+        const requestOptions = {
+            method: 'GET'
+        };
+        fetch(link, requestOptions).then(res=>res.text()).then(result => {
+            const obj = JSON.parse(result).prices; 
+            setMinDate(obj[0][0]);
+            setCurrency(obj);
+        }, (error) => {setCurrency(-1)});
+    }
 
     function showData(){
         handleShow();
@@ -18,10 +38,19 @@ function DCAForm() {
         setAmount(num)
     }
     function handleCurrency(event) {
-        setCurrency(event.target.value);
+        setCurrency(event);
+        getData(event);
     }
     function handleInterval(event) {
-        setInterval(event.target.value);
+        setDcaInverval(event);
+    }
+
+    function handleInputFocus(event){
+        setInputFocus(true);
+    }
+
+    function handleInputBlur(event){
+        setInputFocus(false);
     }
 
     const handleClose = () => setShow(false);
@@ -29,44 +58,29 @@ function DCAForm() {
 
     return (
         <div>
-            <Card style={{ width: '24rem', 'box-shadow': '0 0 450px 450px #fdeaf1', 'border-radius': '10%', border: '0px'}}>
+            <Card style={{ width: '24rem', 'boxShadow': '0 0 450px 450px #fdeaf1', 'borderRadius': '10%', border: '0px'}}>
                 <Card.Body>
-                    <Card.Title>DCA Calculator</Card.Title>
-                    <br />
-                    <Card.Text>
+                    <Card.Title>Dollar Cost Average Calculator</Card.Title>
                         <Form>
                             <Form.Group as={Row} controlId="formAmount">
                                 <Form.Label column sm="4">If I bought </Form.Label>
-                                <Col sm="6">
-                                    <Form.Control type="number" placeholder="100" onChange={handleAmount}
-                                    style={{'border-radius': '20px', width: '100%'}}
-                                    />
+                                <Col sm="8">
+                                <div className={inputFocus ? "divInputFocus" : "divInput"}>
+                                    <input class="input-field" onFocus={handleInputFocus} onBlur={handleInputBlur} type="number" placeholder="100" name="usrnm"></input>
+                                    <label><b>USD</b></label>
+                                </div>
                                 </Col>
-                                <Form.Label column sm="2">USD</Form.Label>
                             </Form.Group>
-                            
                             <Form.Group as={Row} controlId="formCurrency">
                                 <Form.Label column sm="4">Worth of</Form.Label>
                                 <Col sm="8">
-                                <Form.Control as="select" onChange={handleCurrency}
-                                style={{'border-radius': '20px', width: '100%'}}
-                                >
-                                    <option>Bitcoin</option>
-                                    <option>Ethereum</option>
-                                </Form.Control>
+                                    <CurrencyDropdown currentChanged={handleCurrency} />
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Row} controlId="formInterval">
                                 <Form.Label column sm="4">Every</Form.Label>
                                 <Col sm="8">
-                                <Form.Control as="select" onChange={handleInterval}
-                                style={{'border-radius': '20px', width: '100%'}}
-                                >
-                                    <option>Day</option>
-                                    <option>Week</option>
-                                    <option selected>Month</option>
-                                    <option>Year</option>
-                                </Form.Control>
+                                    <IntervalDropdown currentChanged={handleInterval} />
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Row} controlId="formDate">
@@ -75,18 +89,18 @@ function DCAForm() {
                                     <DatePicker
                                     onChange={setDate}
                                     value={date}
+                                    minDate={new Date(minDate)}
                                     />
                                 </Col>
                             </Form.Group>
                             <div className="Div-Center">
-                            <Button variant="primary" onClick={showData}
-                            style={{'border-radius': '20px', width: '100%'}}
+                            <Button variant="primary" onClick={getData}
+                            style={{'borderRadius': '20px', width: '100%'}}
                             >
                                 <h5>I would have</h5>
                             </Button>
                             </div>
                         </Form>
-                    </Card.Text>
                 </Card.Body>
             </Card>
 
