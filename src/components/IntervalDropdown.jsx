@@ -34,17 +34,10 @@ function CurrencyDropdown(props) {
           className={className}
           aria-labelledby={labeledBy}
         >
-          <FormControl
-            autoFocus
-            className="mx-3 my-2 w-auto"
-            placeholder="Type to filter..."
-            onChange={(e) => setValue(e.target.value)}
-            value={value}
-          />
           <ul className="list-unstyled">
             {React.Children.toArray(children).filter(
               (child) => 
-                !value || child.props.children.toLowerCase().startsWith(value.toLowerCase()),
+                !value,
             )}
           </ul>
         </div>
@@ -62,7 +55,7 @@ function CurrencyDropdown(props) {
           {deviceId}
         </Dropdown.Toggle>
     
-        <Dropdown.Menu as={CustomMenu}>
+        <Dropdown.Menu>
           <Dropdown.Item eventKey="Day" style={{'backgroundColor': "white", 'color':'black'}} >Day</Dropdown.Item>
           <Dropdown.Item eventKey="Week" style={{'backgroundColor': "white", 'color':'black'}} >Week</Dropdown.Item>
           <Dropdown.Item eventKey="Month" style={{'backgroundColor': "white", 'color':'black'}} active>Month</Dropdown.Item>
