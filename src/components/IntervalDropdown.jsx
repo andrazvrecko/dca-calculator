@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dropdown, FormControl, Button} from 'react-bootstrap';
+import {Dropdown, FormControl} from 'react-bootstrap';
 import {CustomButton} from './StyledComponents';
 
 

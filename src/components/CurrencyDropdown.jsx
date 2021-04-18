@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dropdown, FormControl, Button} from 'react-bootstrap';
+import {Dropdown, FormControl} from 'react-bootstrap';
 import {CustomButton} from './StyledComponents';
 
 function CurrencyDropdown(props) {
@@ -62,9 +62,16 @@ function CurrencyDropdown(props) {
         </Dropdown.Toggle>
     
         <Dropdown.Menu as={CustomMenu}>
-          <Dropdown.Item eventKey="Bitcoin" style={{'backgroundColor': "white", 'color':'black'}} active><img src="/images/bitcoin.png" className="iconImage"></img>Bitcoin</Dropdown.Item>
-          <Dropdown.Item eventKey="Ethereum" style={{'backgroundColor': "white", 'color':'black'}} ><img src="/images/ethereum.png" className="iconImage"></img>Ethereum</Dropdown.Item>
-          <Dropdown.Item eventKey="Dogecoin" style={{'backgroundColor': "white", 'color':'black'}} ><img src="/images/doge.png" className="iconImage"></img>Doge</Dropdown.Item>
+          <Dropdown.Item eventKey="Bitcoin" style={{'backgroundColor': "white", 'color':'black'}} active><img src="/images/bitcoin.png" alt="logo" className="iconImage"></img>Bitcoin</Dropdown.Item>
+          <Dropdown.Item eventKey="Ethereum" style={{'backgroundColor': "white", 'color':'black'}} ><img src="/images/ethereum.png" alt="logo" className="iconImage"></img>Ethereum</Dropdown.Item>
+          <Dropdown.Item eventKey="Dogecoin" style={{'backgroundColor': "white", 'color':'black'}} ><img src="/images/doge.png" alt="logo" className="iconImage"></img>Doge</Dropdown.Item>
+          <Dropdown.Item eventKey="Binancecoin" style={{'backgroundColor': "white", 'color':'black'}} ><img src="/images/binance.png" alt="logo" className="iconImage"></img>Binance Coin</Dropdown.Item>
+          <Dropdown.Item eventKey="XRP" style={{'backgroundColor': "white", 'color':'black'}} ><img src="/images/xrp.png" alt="logo" className="iconImage"></img>XRP</Dropdown.Item>
+          <Dropdown.Item eventKey="Cardano" style={{'backgroundColor': "white", 'color':'black'}} ><img src="/images/cardano.png" alt="logo" className="iconImage"></img>Cardano</Dropdown.Item>
+          <Dropdown.Item eventKey="Polkadot" style={{'backgroundColor': "white", 'color':'black'}} ><img src="/images/polkadot.png" alt="logo" className="iconImage"></img>Polkadot</Dropdown.Item>
+          <Dropdown.Item eventKey="Litecoin" style={{'backgroundColor': "white", 'color':'black'}} ><img src="/images/litecoin.png" alt="logo" className="iconImage"></img>Litecoin</Dropdown.Item>
+          <Dropdown.Item eventKey="Uniswap" style={{'backgroundColor': "white", 'color':'black'}} ><img src="/images/uniswap.png" alt="logo" className="iconImage"></img>Uniswap</Dropdown.Item>
+          <Dropdown.Item eventKey="Chainlink" style={{'backgroundColor': "white", 'color':'black'}} ><img src="/images/chainlink.png" alt="logo" className="iconImage"></img>Chainlink</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     );

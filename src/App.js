@@ -1,7 +1,6 @@
-import logo from './logo.svg';
 import DCAFrom from './components/DCAForm';
 
-import './App.scss';
+import './style/App.scss';
 
 function App() {
   return (
