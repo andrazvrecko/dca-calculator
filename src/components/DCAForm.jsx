@@ -3,8 +3,11 @@ import {Form, Button, Card, Col, Row, Modal} from 'react-bootstrap';
 import DatePicker from 'react-date-picker/dist/entry.nostyle';
 import CurrencyDropdown from './CurrencyDropdown';
 import IntervalDropdown from './IntervalDropdown';
+import RealCurrencyDropdown from './RealCurrencyDropdown';
 import '../style/DatePicker.scss';
 import '../style/Calendar.scss';
+import {FeeInput} from './StyledComponents';
+
 
 function DCAForm() {
     const [amount, setAmount] = useState(100);
@@ -19,10 +22,13 @@ function DCAForm() {
     const [totalUsdSpent, setTotalUsdSpent] = useState(0);
     const [totalCryptoBought, setTotalCryptoBought] = useState(0);
     const [usdVal, setUsdVal] = useState(0);
+    const [realCurrency, setRealCurrency] = useState("USD");
+    const [settings, setSettings] = useState(false);
+    const [exchangeFee, setExchangeFee] = useState(0.0);
 
-    function getData(curr){
-        console.log("Updating price chart for "+curr+"...");
-        const link = 'https://api.coingecko.com/api/v3/coins/'+curr.toLowerCase()+'/market_chart?vs_currency=USD&days=max';
+    function getData(curr, rCurr){
+        console.log("Updating price chart for "+curr+"/" +rCurr+ "...");
+        const link = 'https://api.coingecko.com/api/v3/coins/'+curr.toLowerCase()+'/market_chart?vs_currency='+rCurr+'&days=max';
         const requestOptions = {
             method: 'GET'
         };
@@ -35,8 +41,14 @@ function DCAForm() {
 
     function handleCurrency(event) {
         setCurrency(event);
-        getData(event);
+        getData(event, realCurrency);
     }
+
+    function handleRealCurrency(event) {
+        setRealCurrency(event);
+        getData(currency, event);
+    }
+
     function handleInterval(event) {
         setDcaInverval(event);
     }
@@ -58,7 +70,7 @@ function DCAForm() {
 
     useEffect(() => {
         if(currencyChart === -1){
-            getData("Bitcoin");
+            getData("Bitcoin", "USD");
         }
     });
 
@@ -110,18 +122,22 @@ function DCAForm() {
         setUsdVal(currencyChart[currencyChart.length-1][1]*totalAmountCrypto);
     }
 
+    const handleSettings = () => {
+        setSettings(!settings);
+    }
+
     return (
         <div>
             <Card style={{ width: '24rem', 'boxShadow': '0 0 450px 450px #fdeaf1', 'borderRadius': '10%', border: '0px'}}>
                 <Card.Body>
-                    <Card.Title>Dollar Cost Average Calculator</Card.Title>
+                    <Card.Title>Dollar Cost Average Calc<button onClick={handleSettings} style={{width: '10%', 'float':'right', "backgroundColor": "white", border: "0px"}}><img src="/images/cog-solid.svg" width="24px" alt="cog"/></button></Card.Title>
                         <Form>
                             <Form.Group as={Row} controlId="formAmount">
                                 <Form.Label column sm="4">If I bought </Form.Label>
                                 <Col sm="8">
                                 <div className={inputFocus ? "divInputFocus" : "divInput"}>
                                     <input className="input-field" onChange={handleInputChange} onFocus={handleInputFocus} onBlur={handleInputBlur} type="number" placeholder="100" name="usrnm"></input>
-                                    <label><b>USD</b></label>
+                                    <RealCurrencyDropdown currentChanged={handleRealCurrency} />
                                 </div>
                                 </Col>
                             </Form.Group>
@@ -148,6 +164,14 @@ function DCAForm() {
                                     />
                                 </Col>
                             </Form.Group>
+
+                            {settings && <Form.Group as={Row} controlId="formFee">
+                                <Form.Label column sm="4">Exchange fee</Form.Label>
+                                <Col sm="8">
+                                    <FeeInput type="number" placeholder="0.3"></FeeInput>
+                                </Col>
+                            </Form.Group>}
+
                             <div className="Div-Center">
                             <Button variant="primary" onClick={handleShow}
                             style={{'borderRadius': '20px', width: '100%'}}
@@ -165,7 +189,7 @@ function DCAForm() {
                     <Modal.Title>Results</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Today, I would have <b>{totalCryptoBought}</b> {currency} (<b>{usdVal}</b> USD).
+                        Today, I would have <b>{totalCryptoBought}</b> {currency} (<b>{usdVal.toFixed(2)}</b> USD).
                         <br />
                         I would have bought {currency} <b>{numOfBuys}</b> times.
                         <br />
