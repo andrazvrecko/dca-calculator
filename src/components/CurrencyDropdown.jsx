@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dropdown, FormControl} from 'react-bootstrap';
+import {Dropdown} from 'react-bootstrap';
 import {CustomButton} from './StyledComponents';
 
 function CurrencyDropdown(props) {
@@ -25,7 +25,6 @@ function CurrencyDropdown(props) {
   // Dropdown needs access to the DOM of the Menu to measure it
   const CustomMenu = React.forwardRef(
     ({ children, style, className, 'aria-labelledby': labeledBy }, ref) => {
-      const [value, setValue] = useState('');
   
       return (
         <div
@@ -37,7 +36,7 @@ function CurrencyDropdown(props) {
           <ul className="list-unstyled">
             {React.Children.toArray(children).filter(
               (child) => 
-                !value ,
+                true ,
             )}
           </ul>
         </div>

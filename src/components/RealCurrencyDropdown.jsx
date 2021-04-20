@@ -1,12 +1,10 @@
 import React, {useState} from 'react';
-import {Dropdown, FormControl} from 'react-bootstrap';
+import {Dropdown} from 'react-bootstrap';
 import {CurrencyButton} from './StyledComponents';
 
 
 function RealCurrencyDropdown(props) {
     const [deviceId, setDeviceId] = useState("USD");
-    // The forwardRef is important!!
-// Dropdown needs access to the DOM node in order to position the Menu
     const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
         <CurrencyButton
             className="dropdownButton"
@@ -20,30 +18,7 @@ function RealCurrencyDropdown(props) {
             <b>{children} &#x25bc;</b>
         </CurrencyButton>
     ));
-  
-  // forwardRef again here!
-  // Dropdown needs access to the DOM of the Menu to measure it
-  const CustomMenu = React.forwardRef(
-    ({ children, style, className, 'aria-labelledby': labeledBy }, ref) => {
-      const [value, setValue] = useState('');
-  
-      return (
-        <div
-          ref={ref}
-          style={style}
-          className={className}
-          aria-labelledby={labeledBy}
-        >
-          <ul className="list-unstyled">
-            {React.Children.toArray(children).filter(
-              (child) => 
-                !value,
-            )}
-          </ul>
-        </div>
-      );
-    },
-  );
+
   if(props.numOfConnected <= 0){
     return(<h4>No Devices are connected</h4>)
   }

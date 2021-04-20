@@ -51,4 +51,15 @@ export const FeeInput = styled.input`
         box-shadow: 0 0 4px 1px #ff007a;
         outline: none;
     }
-`
+`;
+
+export const SettingsButton = styled.button`
+    width: 10%;
+    float: right;
+    background-color: white;
+    border: 0px;
+
+    &:hover{
+        color: #ff007a;
+    }
+`;
